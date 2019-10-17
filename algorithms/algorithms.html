@@ -35,6 +35,22 @@
         </tr>
       </table>
       <p>Now consider that you are a SysAdmin and you need to create the greatest number of clusters of computers, each with a number of PCs and printers, given X PCs and Y printers and given that no equipment should be left out of a cluster and there should be as many clusters as possible.</p>
+      <p>My solution was to find the least common denominator by searching from the smaller value douwn to one to find a number in which modulo both x and y have the same value. An implementation follows</p> 
+      <form>
+        <fieldset id="use-all">
+          <legend>Using all resources</legend>
+          <div>
+            <label for="Y">Y</label>
+            <input id="Y" name="y">
+          </div>
+          <div>
+            <label for="X">X</label>
+            <input id="X" name="x">
+          </div>
+          <label>Result</label>
+          <output></output>
+        </fieldset>
+      </form>
     </section>
   </body>
 </html>
