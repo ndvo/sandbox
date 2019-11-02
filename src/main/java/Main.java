@@ -1,4 +1,7 @@
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import javax.crypto.*;
+import javax.crypto.spec.IvParameterSpec;
 import java.security.*;
 import java.util.Base64;
 
@@ -6,9 +9,10 @@ import java.util.Base64;
 public class Main {
 
     public static void main (String[] args) {
+        Security.addProvider(new BouncyCastleProvider());
         try {
             // Ana e Beto geram uma chave criptográfica
-            KeyGenerator g = KeyGenerator.getInstance("AES");
+            KeyGenerator g = KeyGenerator.getInstance("AES", "BC");
             SecureRandom sR = new SecureRandom();
             g.init(256, sR);
             SecretKey k = g.generateKey();
@@ -18,18 +22,19 @@ public class Main {
 
             // Ana encripta a mensagem usando AES
             String m = "Mensagem Secreta";
-            Cipher c = Cipher.getInstance("AES");
+            Cipher c = Cipher.getInstance("AES/CTR/PKCS7Padding", "BC");
             c.init(Cipher.ENCRYPT_MODE, k);
             byte[] r = c.doFinal(m.getBytes());
             System.out.println(String.format("Mensagem encriptada: %s", b64(r)));
+            byte[] iv = c.getIV();
 
             // Beto decripta a mensagem usando AES
-            Cipher d = Cipher.getInstance("AES");
-            d.init(Cipher.DECRYPT_MODE, k);
+            Cipher d = Cipher.getInstance("AES/CTR/PKCS7Padding", "BC");
+            d.init(Cipher.DECRYPT_MODE, k, new IvParameterSpec(iv));
             byte[] decripted = d.doFinal(r);
             System.out.println(String.format("Decriptado: %s", new String(decripted)));
 
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException e) {
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException | InvalidKeyException | NoSuchProviderException | InvalidAlgorithmParameterException e) {
             e.printStackTrace();
         }
 
