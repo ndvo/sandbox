@@ -1,0 +1,5 @@
+
+table, tr, td{
+  border-bottom: solid thin silver;
+  border-collapse: collapse;
+}

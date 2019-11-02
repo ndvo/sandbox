@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <meta charset="utf8">
+    <script src="resources/sha1.js"></script>
+  </head>
+  <body>
+    <style>
+      body{
+        width: 80ch;
+        margin: 0 auto;
+      }
+      label{
+        display: block; 
+        text-align: right;
+      }
+      label input{
+        margin: 5px 30px;
+        min-width: 50ch;
+      }
+      form button{
+        display: inline-block;
+      }
+    </style>
+    <h1>Proof of work login form</h1>
+    <section id="summary">
+      <dl>
+        <dt>Concept</dt><dd>Use proof of work as a defense against spam and brute force.</dd>
+        <dt>How it works?</dt><dd>When the user submits a form, JavaScript calculates a hash lower then a difficulty and submits the hash together with the values. If the hash is wrong, the server will ignore this client for a penalty time.</dd>
+        <dt>Why?</dt><dd>This adds a small energy cost to each post. It is not significant for a legitimate user, but can be relevant to opponents abusing the system.</dd>
+        <dt>
+      </dl>
+    </section>
+
+    <section id="examples">
+      <form id="login">
+        <script>
+          function generatePow(){
+            var f = document.querySelector('#login');
+            var n = f.querySelector('[name=user]');
+            var p = f.querySelector('[name=pwd]');
+            var nonce = 0;
+            var found = false;
+            var hashed;
+            var dificulty = 3;
+            var progress= f.querySelector("progress");
+            var work = function (){
+              hashed = hex_sha1(n.value+p.value+nonce);
+              found = true;
+              for (var i=0; i<dificulty; i++){
+                if (hashed[i] != "0"){
+                  found = false;
+                  break;
+                }
+              }
+              if (found){
+                f.querySelector('[name=pow]').value = hashed;
+                f.querySelector('[name=nonce]').value = nonce;
+                progress.value = 100
+
+              }else{
+                f.querySelector('[name=pow]').value = "";
+                f.querySelector('[name=nonce]').value = "";
+                setTimeout(work);
+                nonce+=1;
+                progress.value = Math.min(96,nonce/(dificulty*10));
+              }
+            }
+            work();
+          }
+        </script>
+              <fieldset>
+                <legend>Example login form</legend>
+                <label for="user">User <input placeholder="Username" name="user" type="text"></label>
+                <label for="pwd">Password <input placeholder="Password" name="pwd" type="password"></label>
+                <label disabled for="pow">Proof of Work<input placeholder="The proof that the work was done" name="pow" type="text"></label>
+                <label disabled for="nonce">Nonce<input placeholder="A generated value used to find the hash" name="nonce" type="text"></label>
+                <progress value="0" max="100"></progress>
+                <button onclick='generatePow()' type="button">Generate Proof</button>
+              </fieldset>
+      </form>
+    </section>
+  </body>
+</html>

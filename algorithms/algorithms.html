@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <link type="text/css" rel="stylesheet" href="style.css">
+    <script src="algorithms.js" defer></script>
+    <title>Algorithms and Data Structures</title>
+    <meta charset="utf8">
+  </head>
+  <body>
+    <h1>Exercises done for the discipline Algorithms and Data Structures</h1>
+    <section class="week" id="week01">
+      <h2>Problem 01</h2>
+      <p>You are to organize a party. There will be 48 toys and 42 sweets. What is the maximum number of possible guests so that each one get the same amount of each and there is no toy or sweet left?</p>
+      <p><strong>Solution:</strong> it is the greatest common divisor. It can be found by successively dividing each number by the lowest possible value until reach one, then multiply the values that occur on both numbers.</p>
+      <table>
+        <tr>
+          <th>42</th><th>48</th>
+        </tr>
+        <tr>
+          <td rowspan="4">42÷2=21</td><td>48÷2=24</td>
+        </tr>
+        <tr>
+          <td>24÷2=12</td>
+        </tr>
+        <tr>
+          <td>12÷2=6</td>
+        </tr>
+        <tr>
+          <td>6÷2=3</td>
+        </tr>
+        <tr>
+          <td>21÷3=7</td><td >3÷3=1</td>
+        </tr>
+        <tr>
+          <td>7÷7=1</td><td></td>
+        </tr>
+      </table>
+      <p>Now consider that you are a SysAdmin and you need to create the greatest number of clusters of computers, each with a number of PCs and printers, given X PCs and Y printers and given that no equipment should be left out of a cluster and there should be as many clusters as possible.</p>
+      <p>My solution was to find the least common denominator by searching from the smaller value douwn to one to find a number in which modulo both x and y have the same value. An implementation follows</p> 
+      <form>
+        <fieldset id="use-all">
+          <legend>Using all resources</legend>
+          <div>
+            <label for="Y">Y</label>
+            <input id="Y" name="y">
+          </div>
+          <div>
+            <label for="X">X</label>
+            <input id="X" name="x">
+          </div>
+          <label>Result</label>
+          <output></output>
+        </fieldset>
+      </form>
+    </section>
+  </body>
+</html>
