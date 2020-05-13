@@ -6,6 +6,15 @@ http.createServer(app).listen(3000, function () {
   console.log('Express app started')
 })
 
+app.set('view engine', 'pug')
+app.set('views', './views')
+
 app.get('/', function (req, res) {
-  res.send('<h1>Welcome!</h1>')
+  res.render('index')
 })
+
+app.get('/hello', function (req, res) {
+  res.render('hello')
+})
+
+app.use(express.static('./public'))
